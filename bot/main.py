@@ -102,3 +102,6 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+@commands.command()
+async def test(self, ctx):
+    await ctx.send("Bot is working!")
