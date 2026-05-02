@@ -1,11 +1,12 @@
 import asyncio
 import discord
 from discord.ext import commands
-from bot.utils.embeds import (challenge_embed, trivia_embed, trivia_result_embed,
-                               error_embed, game_embed, success_embed)
-from bot.utils.game_logic import get_trivia_questions
-from bot.utils.matchmaking import matchmaking, GameSession
-from bot.database.db_utils import get_or_create_player, update_player_stats, log_game
+# FIXED: Remove 'bot.' prefix from all imports
+from utils.embeds import (challenge_embed, trivia_embed, trivia_result_embed,
+                           error_embed, game_embed, success_embed)
+from utils.game_logic import get_trivia_questions
+from utils.matchmaking import matchmaking, GameSession
+from database.db_utils import get_or_create_player, update_player_stats, log_game
 
 
 class TriviaAnswerView(discord.ui.View):
