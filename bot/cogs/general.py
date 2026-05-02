@@ -1,7 +1,8 @@
 import discord
 from discord.ext import commands
-from bot.utils.embeds import base_embed, leaderboard_embed, game_embed, error_embed
-from bot.database.db_utils import get_or_create_player, get_leaderboard
+# Fix the imports - remove 'bot.' prefix
+from utils.embeds import base_embed, leaderboard_embed, game_embed, error_embed
+from database.db_utils import get_or_create_player, get_leaderboard
 
 
 class General(commands.Cog, name="General"):
