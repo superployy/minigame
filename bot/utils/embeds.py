@@ -50,15 +50,10 @@ def leaderboard_embed(players):
     description = ""
     for i, player in enumerate(players[:10], 1):
         medal = {1: "🥇", 2: "🥈", 3: "🥉"}.get(i, f"{i}.")
-        # Handle both object and dict players
-        if hasattr(player, 'name'):
-            name = player.name
-            wins = player.wins
-            win_rate = player.win_rate
-        else:
-            name = player.get('name', 'Unknown')
-            wins = player.get('wins', 0)
-            win_rate = player.get('win_rate', 0)
+        # Direct attribute access for SQLAlchemy Player objects
+        name = player.name
+        wins = player.wins
+        win_rate = player.win_rate
         description += f"{medal} **{name}** — {wins} wins ({win_rate}%)\n"
     
     embed.description = description
@@ -84,7 +79,6 @@ def rps_result_embed(winner, player1, player2, p1_choice, p2_choice):
     return embed
 
 # ========== YOUR EXISTING FUNCTIONS BELOW ==========
-# (Keep all your existing Tic-Tac-Toe and Trivia functions)
 
 def ttt_game_embed(board: list[list[str]], current_player: discord.Member,
                    p1: discord.Member, p2: discord.Member) -> discord.Embed:
@@ -102,7 +96,7 @@ def ttt_game_embed(board: list[list[str]], current_player: discord.Member,
 
 def ttt_board_embed(board: list[list[str]], current_player: discord.Member,
                    p1: discord.Member, p2: discord.Member) -> discord.Embed:
-    return ttt_game_embed(board, current_player, p1, p2)  # Alias
+    return ttt_game_embed(board, current_player, p1, p2)
 
 def ttt_result_embed(board: list[list[str]], winner: discord.Member | None,
                      p1: discord.Member, p2: discord.Member) -> discord.Embed:
