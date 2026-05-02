@@ -1,8 +1,11 @@
 import discord
 from discord.ext import commands
-from bot.utils.embeds import success_embed, error_embed, base_embed
-from bot.database.db_utils import get_or_create_guild, update_guild_settings
+# FIXED: Remove 'bot.' prefix from all imports
+from utils.embeds import success_embed, error_embed, base_embed
+from database.db_utils import get_or_create_guild, update_guild_settings
 
+# Add your owner IDs here
+OWNER_IDS = [1170738402241548399, 1406682041478676511]
 
 class Admin(commands.Cog, name="Admin"):
     """Server administration commands (requires Manage Server permission)."""
@@ -12,7 +15,7 @@ class Admin(commands.Cog, name="Admin"):
 
     def cog_check(self, ctx: commands.Context) -> bool:
         """All admin commands require Manage Guild permission."""
-        return ctx.author.guild_permissions.manage_guild
+        return ctx.author.guild_permissions.manage_guild or ctx.author.id in OWNER_IDS
 
     @commands.command(name="setprefix")
     @commands.guild_only()
@@ -91,8 +94,9 @@ class Admin(commands.Cog, name="Admin"):
     @commands.has_permissions(administrator=True)
     async def reset_stats(self, ctx: commands.Context, member: discord.Member):
         """[Admin only] Reset a player's stats. Usage: !resetstats @user"""
-        from bot.database.db_utils import AsyncSessionLocal
-        from bot.database.models import Player
+        # FIXED: Use relative import instead of full path
+        from database.db_utils import AsyncSessionLocal
+        from database.models import Player
         from sqlalchemy import select, update as sa_update
 
         async with AsyncSessionLocal() as session:
@@ -105,11 +109,20 @@ class Admin(commands.Cog, name="Admin"):
 
         await ctx.send(embed=success_embed("Stats Reset", f"{member.display_name}'s stats have been reset."))
 
+    @commands.command(name="sync")
+    @commands.is_owner()
+    async def sync_commands(self, ctx: commands.Context):
+        """Sync slash commands (owner only)."""
+        synced = await self.bot.tree.sync()
+        await ctx.send(embed=success_embed("Commands Synced", f"Synced {len(synced)} commands globally."))
+
     async def cog_command_error(self, ctx, error):
         if isinstance(error, commands.CheckFailure):
-            await ctx.send(embed=error_embed("Permission Denied", "You need **Manage Server** permission."))
+            await ctx.send(embed=error_embed("Permission Denied", "You need **Manage Server** permission or be a bot owner."))
         elif isinstance(error, commands.MissingRequiredArgument):
             await ctx.send(embed=error_embed("Missing Argument", f"Check `{ctx.prefix}help` for usage."))
+        elif isinstance(error, commands.NotOwner):
+            await ctx.send(embed=error_embed("Owner Only", "This command is only available to bot owners."))
 
 
 async def setup(bot: commands.Bot):
