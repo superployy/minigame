@@ -6,7 +6,7 @@ from discord.ext import commands
 from dotenv import load_dotenv
 from database.db_utils import init_db, get_or_create_guild
 from cogs.some_cog import SomeCog
-
+# from cogs.some_cog import SomeCog  # TODO: Fix this when cogs are added
 load_dotenv()
 
 logging.basicConfig(
