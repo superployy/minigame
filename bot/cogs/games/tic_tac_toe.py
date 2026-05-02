@@ -1,10 +1,11 @@
 import discord
 from discord.ext import commands
-from bot.utils.embeds import (challenge_embed, ttt_board_embed, ttt_result_embed,
-                               error_embed, game_embed)
-from bot.utils.game_logic import make_board, make_move, check_winner, board_position_to_rc
-from bot.utils.matchmaking import matchmaking, GameSession
-from bot.database.db_utils import get_or_create_player, update_player_stats, log_game
+# FIXED: Remove 'bot.' prefix from all imports
+from utils.embeds import (challenge_embed, ttt_board_embed, ttt_result_embed,
+                           error_embed, game_embed)
+from utils.game_logic import make_board, make_move, check_winner, board_position_to_rc
+from utils.matchmaking import matchmaking, GameSession
+from database.db_utils import get_or_create_player, update_player_stats, log_game
 
 
 class TTTView(discord.ui.View):
