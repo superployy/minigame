@@ -4,7 +4,8 @@ import logging
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
-from bot.database.db_utils import init_db, get_or_create_guild
+from database.db_utils import init_db, get_or_create_guild
+from cogs.some_cog import SomeCog
 
 load_dotenv()
 
