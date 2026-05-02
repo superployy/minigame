@@ -5,8 +5,7 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 from database.db_utils import init_db, get_or_create_guild
-from cogs.some_cog import SomeCog
-# from cogs.some_cog import SomeCog  # TODO: Fix this when cogs are added
+
 load_dotenv()
 
 logging.basicConfig(
@@ -16,11 +15,11 @@ logging.basicConfig(
 logger = logging.getLogger("MiniGamesBot")
 
 COGS = [
-    "bot.cogs.general",
-    "bot.cogs.admin",
-    "bot.cogs.games.rock_paper_scissors",
-    "bot.cogs.games.tic_tac_toe",
-    "bot.cogs.games.trivia",
+    "cogs.general",
+    "cogs.admin",
+    "cogs.games.rock_paper_scissors",
+    "cogs.games.tic_tac_toe",
+    "cogs.games.trivia",
 ]
 
 DEFAULT_PREFIX = os.getenv("PREFIX", "!")
